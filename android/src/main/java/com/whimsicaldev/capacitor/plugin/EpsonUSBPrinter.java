@@ -161,4 +161,53 @@ public class EpsonUSBPrinter {
 
         this.connection.releaseInterface(this.usbInterface);
     }
+
+  public void printRaw(byte[] bytes) throws Exception {
+    if(this.connection == null) {
+      throw new Exception("Currently not connected to a device.");
+    } else if(this.usbInterface == null) {
+      throw new Exception("Usb interface is not properly set.");
+    }
+//    List<EpsonUSBPrinterLineEntry> printObjectList = this.objectMapper.readValue(printObject, new TypeReference<>() {});
+
+    this.connection.claimInterface(this.usbInterface, true);
+    this.connection.bulkTransfer(this.usbEndpoint, bytes, bytes.length, 10000);
+//    byte[] LN = EpsonUSBPrinterConstant.EPSON_COMMAND_LIST.get(EpsonUSBPrinterConstant.LN);
+//    byte[] RESET = EpsonUSBPrinterConstant.EPSON_COMMAND_LIST.get(EpsonUSBPrinterConstant.RESET);
+//
+//    for(EpsonUSBPrinterLineEntry lineEntry: printObjectList) {
+//      connection.bulkTransfer(usbEndpoint, RESET, RESET.length, 10000);
+//      if(lineEntry.getLineStyleList() != null) {
+//        for(String style: lineEntry.getLineStyleList()) {
+//          byte[] styleValue = EpsonUSBPrinterConstant.EPSON_STYLE_LIST.get(style);
+//          if(styleValue != null) {
+//            connection.bulkTransfer(usbEndpoint, styleValue, styleValue.length, 10000);
+//          }
+//        }
+//      }
+//
+//      if(lineEntry.getLineText() != null) {
+//        String printData = lineEntry.getLineText();
+//        this.connection.bulkTransfer(this.usbEndpoint, printData.getBytes(), printData.getBytes().length, 10000);
+//        this.connection.bulkTransfer(this.usbEndpoint, LN, LN.length, 10000);
+//      }
+//
+//      if(lineEntry.getLineCommandList() != null) {
+//        for(String command: lineEntry.getLineCommandList()) {
+//          byte[] commandValue = EpsonUSBPrinterConstant.EPSON_COMMAND_LIST.get(command);
+//          if(commandValue != null) {
+//            connection.bulkTransfer(usbEndpoint, commandValue, commandValue.length, 10000);
+//          }
+//        }
+//      }
+//    }
+//
+//    // line feed to push the prints beyond the printer cover
+//    for(int i = 0; i < 6; i+=1) {
+//      this.connection.bulkTransfer(this.usbEndpoint, LN, LN.length, 10000);
+//    }
+
+
+    this.connection.releaseInterface(this.usbInterface);
+  }
 }

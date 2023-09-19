@@ -1,6 +1,6 @@
 import { WebPlugin } from '@capacitor/core';
 
-import type { EpsonUSBPrinterPlugin, EpsonUSBPrinterInfo } from './definitions';
+import type { EpsonUSBPrinterInfo, EpsonUSBPrinterPlugin } from './definitions';
 
 /// <reference types="w3c-web-usb" />
 
@@ -54,4 +54,10 @@ export class EpsonUSBPrinterWeb extends WebPlugin implements EpsonUSBPrinterPlug
     console.log(options);
     throw new Error('Method not implemented.');
   }
+
+  printHexArray(options: { content: string; }): Promise<void> {
+    console.log(options);
+    throw new Error('Method not implemented.');
+  }
+
 }

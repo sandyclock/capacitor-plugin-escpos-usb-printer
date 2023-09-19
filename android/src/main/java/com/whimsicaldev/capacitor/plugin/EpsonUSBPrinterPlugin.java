@@ -1,10 +1,12 @@
 package com.whimsicaldev.capacitor.plugin;
 
+import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
+import org.apache.commons.codec.binary.Hex;
 
 import org.json.JSONArray;
 
@@ -42,7 +44,7 @@ public class EpsonUSBPrinterPlugin extends Plugin {
         } else if(call.hasOption("productId") && call.getInt("productId") == null) {
             call.reject("Product id is of incorrect type, please provide an integer.");
         }
-        
+
         int productId = call.getInt("productId");
         try {
             JSObject jsObject = new JSObject();
@@ -69,4 +71,24 @@ public class EpsonUSBPrinterPlugin extends Plugin {
             call.reject(e.getMessage());
         }
     }
+
+  @PluginMethod
+  public void printHexArray(PluginCall call) {
+    if(!call.hasOption("content")) {
+      call.reject("Print Object is not provided.");
+    } else if(call.hasOption("content") && call.getString("content") == null) {
+      call.reject("Print object is of incorrect type, please provide a string.");
+    }
+
+    String hexArray = call.getString("content");
+
+    try {
+      byte[] bytes = Hex.decodeHex(hexArray);
+      implementation.printRaw(bytes);
+      call.resolve();
+    } catch (Exception e) {
+      call.reject(e.getMessage());
+    }
+  }
+
 }

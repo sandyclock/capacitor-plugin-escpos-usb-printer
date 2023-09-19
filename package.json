@@ -1,5 +1,5 @@
 {
-  "name": "capacitor-plugin-epson-usb-printer",
+  "name": "capacitor-plugin-escpos-usb-printer",
   "version": "0.0.6",
   "description": "Capacitor Plugin for printing to epson usb printer",
   "main": "dist/plugin.cjs.js",
@@ -13,7 +13,7 @@
     "ios/Plugin/",
     "CapacitorPluginEpsonUsbPrinter.podspec"
   ],
-  "author": "Gee De Ramos",
+  "author": "Gee De Ramos (Original Author)",
   "license": "MIT",
   "repository": {
     "type": "git",
