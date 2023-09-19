@@ -16,6 +16,7 @@ npx cap sync
 * [`getPrinterList()`](#getprinterlist)
 * [`connectToPrinter(...)`](#connecttoprinter)
 * [`print(...)`](#print)
+* [`printHexArray(...)`](#printhexarray)
 * [Interfaces](#interfaces)
 
 </docgen-index>
@@ -58,6 +59,19 @@ print(options: { printObject: string; }) => Promise<void>
 | Param         | Type                                  |
 | ------------- | ------------------------------------- |
 | **`options`** | <code>{ printObject: string; }</code> |
+
+--------------------
+
+
+### printHexArray(...)
+
+```typescript
+printHexArray(options: { content: string; }) => Promise<void>
+```
+
+| Param         | Type                              |
+| ------------- | --------------------------------- |
+| **`options`** | <code>{ content: string; }</code> |
 
 --------------------
 

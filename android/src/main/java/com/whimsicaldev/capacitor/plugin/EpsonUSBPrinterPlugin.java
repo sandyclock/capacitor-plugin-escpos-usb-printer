@@ -83,7 +83,7 @@ public class EpsonUSBPrinterPlugin extends Plugin {
     String hexArray = call.getString("content");
 
     try {
-      byte[] bytes = Hex.decodeHex(hexArray);
+      byte[] bytes = org.apache.commons.codec.binary.Base64.decodeBase64(hexArray);
       implementation.printRaw(bytes);
       call.resolve();
     } catch (Exception e) {
