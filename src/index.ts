@@ -8,3 +8,4 @@ const EpsonUSBPrinter = registerPlugin<EpsonUSBPrinterPlugin>('EpsonUSBPrinter',
 
 export * from './definitions';
 export { EpsonUSBPrinter };
+

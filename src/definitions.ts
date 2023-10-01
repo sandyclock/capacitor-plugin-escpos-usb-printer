@@ -13,6 +13,8 @@ export interface EpsonUSBPrinterLineEntry {
 export interface EpsonUSBPrinterPlugin {
   getPrinterList(): Promise<{ printerList: EpsonUSBPrinterInfo[]; }>;
 
+  hasPermission(options: { productId: number }): Promise<{ permission: boolean; }>;
+
   connectToPrinter(options: { productId: number }): Promise<{ connected: boolean; }>;
 
   print(options: { printObject: string }): Promise<void>;

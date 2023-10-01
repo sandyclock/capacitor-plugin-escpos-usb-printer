@@ -1,5 +1,19 @@
 package com.whimsicaldev.capacitor.plugin;
 
+import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.hardware.usb.UsbDevice;
+import android.hardware.usb.UsbManager;
+import android.os.Build;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
@@ -38,28 +52,40 @@ public class EpsonUSBPrinterPlugin extends Plugin {
     }
 
     @PluginMethod
-    public void connectToPrinter(PluginCall call) {
-        if(!call.hasOption("productId")) {
-            call.reject("Product id is not provided.");
-        } else if(call.hasOption("productId") && call.getInt("productId") == null) {
-            call.reject("Product id is of incorrect type, please provide an integer.");
-        }
+  public void hasPermission(PluginCall call) {
+    if (!call.hasOption("productId")) {
+      call.reject("Product id is not provided.");
+      return;
+    } else if (call.hasOption("productId") && call.getInt("productId") == null) {
+      call.reject("Product id is of incorrect type, please provide an integer.");
+      return;
+    }
+    int productId = call.getInt("productId");
 
-        int productId = call.getInt("productId");
-        try {
-            JSObject jsObject = new JSObject();
-            jsObject.put("connected", implementation.connectToPrinter(productId));
-            call.resolve(jsObject);
-        } catch(Exception e) {
-            call.reject(e.getMessage());
+    this.implementation.hasPermission(call, productId);
+
+  }
+
+  @PluginMethod
+    public void connectToPrinter(PluginCall call) {
+    if (!call.hasOption("productId")) {
+            call.reject("Product id is not provided.");
+      return;
+    } else if (call.hasOption("productId") && call.getInt("productId") == null) {
+            call.reject("Product id is of incorrect type, please provide an integer.");
+      return;
         }
+    int productId = call.getInt("productId");
+
+    this.implementation._connectToPrinter(call, productId);
+
     }
 
     @PluginMethod
     public void print(PluginCall call) {
-        if(!call.hasOption("printObject")) {
+    if (!call.hasOption("printObject")) {
             call.reject("Print Object is not provided.");
-        } else if(call.hasOption("printObject") && call.getString("printObject") == null) {
+    } else if (call.hasOption("printObject") && call.getString("printObject") == null) {
             call.reject("Print object is of incorrect type, please provide a string.");
         }
 
@@ -74,9 +100,9 @@ public class EpsonUSBPrinterPlugin extends Plugin {
 
   @PluginMethod
   public void printHexArray(PluginCall call) {
-    if(!call.hasOption("content")) {
+    if (!call.hasOption("content")) {
       call.reject("Print Object is not provided.");
-    } else if(call.hasOption("content") && call.getString("content") == null) {
+    } else if (call.hasOption("content") && call.getString("content") == null) {
       call.reject("Print object is of incorrect type, please provide a string.");
     }
 
