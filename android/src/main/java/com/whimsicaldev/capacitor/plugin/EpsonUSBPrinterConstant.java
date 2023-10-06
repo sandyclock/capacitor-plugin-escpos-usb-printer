@@ -5,6 +5,19 @@ import java.util.Map;
 
 public class EpsonUSBPrinterConstant {
 
+  /*
+   * This shall match field definition in definitions ts
+   */
+   public static class Info {
+     final public static String  vendorId = "vendorId";
+     final public static String productId = "productId";
+     final public static String productName = "productName";
+     final public static String connected ="connected";
+     final public static String deviceName = "deviceName";
+     final public static String manufacturer ="manufacturer";
+     final public static String deviceId = "deviceId";
+   }
+
     public static Map<String, byte[]> EPSON_STYLE_LIST;
     public static Map<String, byte[]> EPSON_COMMAND_LIST;
     public static String LN = "LINE_BREAK";

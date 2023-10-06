@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -77,14 +78,22 @@ public class EpsonUSBPrinter {
 
       if (isAPrinter(usbDevice)) {
                 Map printerInfo = new HashMap();
-                printerInfo.put("productId", usbDevice.getProductId());
-                printerInfo.put("productName", usbDevice.getProductName());
-                printerInfo.put("connected", false);
-        printerInfo.put("deviceName", usbDevice.getDeviceName());
-        printerInfo.put("manufacturer", usbDevice.getManufacturerName());
-        printerInfo.put("deviceId", usbDevice.getDeviceId());
-        printerInfo.put("vendor", usbDevice.getVendorId());
-        printerInfo.put("version", usbDevice.getVersion());
+        printerInfo.put(EpsonUSBPrinterConstant.Info.productId, usbDevice.getProductId());
+        printerInfo.put(EpsonUSBPrinterConstant.Info.productName, usbDevice.getProductName());
+        printerInfo.put(EpsonUSBPrinterConstant.Info.connected, false);
+        printerInfo.put(EpsonUSBPrinterConstant.Info.deviceName, usbDevice.getDeviceName());
+        printerInfo.put(EpsonUSBPrinterConstant.Info.manufacturer, usbDevice.getManufacturerName());
+        printerInfo.put(EpsonUSBPrinterConstant.Info.deviceId, usbDevice.getDeviceId());
+        printerInfo.put(EpsonUSBPrinterConstant.Info.vendorId, usbDevice.getVendorId());
+
+//        printerInfo.put("productId", usbDevice.getProductId());
+//                printerInfo.put("productName", usbDevice.getProductName());
+//                printerInfo.put("connected", false);
+//        printerInfo.put("deviceName", usbDevice.getDeviceName());
+//        printerInfo.put("manufacturer", usbDevice.getManufacturerName());
+//        printerInfo.put("deviceId", usbDevice.getDeviceId());
+//        printerInfo.put("vendorId", usbDevice.getVendorId());
+//        printerInfo.put("version", usbDevice.getVersion());
 
                 printerList.add(printerInfo);
                 this.deviceList.add(usbDevice);
@@ -111,11 +120,11 @@ public class EpsonUSBPrinter {
         return false;
     }
 
-  public void hasPermission(PluginCall call, int productId) {
+  public void hasPermission(Integer vendorId, PluginCall call, Integer productId) {
         UsbDevice selectedDevice = null;
     HashMap<String, UsbDevice> deviceList = this.manager.getDeviceList();
     for (UsbDevice device : deviceList.values()) {
-      if (productId == device.getProductId()) {
+      if (Objects.equals(productId, device.getProductId()) && Objects.equals(vendorId, device.getVendorId())) {
                 selectedDevice = device;
                 setUsbInterfaceAndEndpoint(selectedDevice);
                 break;
@@ -132,11 +141,11 @@ public class EpsonUSBPrinter {
     call.resolve(retVal);
   }
 
-  public void _connectToPrinter(PluginCall call, int productId) {
+  public void _connectToPrinter(Integer vendorId, PluginCall call, Integer productId) {
     UsbDevice selectedDevice = null;
     HashMap<String, UsbDevice> deviceList = this.manager.getDeviceList();
     for (UsbDevice device : deviceList.values()) {
-      if (productId == device.getProductId()) {
+      if (Objects.equals(productId, device.getProductId()) && Objects.equals(vendorId, device.getVendorId())) {
         selectedDevice = device;
         setUsbInterfaceAndEndpoint(selectedDevice);
         break;

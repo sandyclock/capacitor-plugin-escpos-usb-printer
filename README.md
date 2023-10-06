@@ -14,6 +14,7 @@ npx cap sync
 <docgen-index>
 
 * [`getPrinterList()`](#getprinterlist)
+* [`hasPermission(...)`](#haspermission)
 * [`connectToPrinter(...)`](#connecttoprinter)
 * [`print(...)`](#print)
 * [`printHexArray(...)`](#printhexarray)
@@ -31,6 +32,21 @@ getPrinterList() => Promise<{ printerList: EpsonUSBPrinterInfo[]; }>
 ```
 
 **Returns:** <code>Promise&lt;{ printerList: EpsonUSBPrinterInfo[]; }&gt;</code>
+
+--------------------
+
+
+### hasPermission(...)
+
+```typescript
+hasPermission(options: { productId: number; }) => Promise<{ permission: boolean; }>
+```
+
+| Param         | Type                                |
+| ------------- | ----------------------------------- |
+| **`options`** | <code>{ productId: number; }</code> |
+
+**Returns:** <code>Promise&lt;{ permission: boolean; }&gt;</code>
 
 --------------------
 

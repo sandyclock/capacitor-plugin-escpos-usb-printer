@@ -19,9 +19,15 @@ export class EpsonUSBPrinterWeb extends WebPlugin implements EpsonUSBPrinterPlug
       printerList: [{
         productId: device.productId as unknown as number,
         productName: device.productName as unknown as string,
+        vendorId: device.vendorId,
         connected: false
       }] as EpsonUSBPrinterInfo[]
     };
+  }
+
+  async hasPermission(options: { productId: number }): Promise<{permission: boolean; }> {
+    console.log(options);
+    throw new Error('Method not implemented.');
   }
 
   async connectToPrinter(options: { productId: number }): Promise<{ connected: boolean; }> {
