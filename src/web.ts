@@ -25,17 +25,17 @@ export class EpsonUSBPrinterWeb extends WebPlugin implements EpsonUSBPrinterPlug
     };
   }
 
-  async hasPermission(options: { productId: number }): Promise<{permission: boolean; }> {
+  async hasPermission(options: { deviceId: number }): Promise<{permission: boolean; }> {
     console.log(options);
     throw new Error('Method not implemented.');
   }
 
-  async connectToPrinter(options: { productId: number }): Promise<{ connected: boolean; }> {
+  async connectToPrinter(options: { deviceId: number, vendorId: number, productId: number }): Promise<{ connected: boolean; }> {
     if(!navigator.usb) {
       return Promise.reject('USB is not supported in this browser.');
     }
 
-    this.selectedDevice = this.deviceList.find(device => device.productId === options.productId) as unknown as USBDevice;
+    this.selectedDevice = this.deviceList.find(device => device.productId === options.productId && device.vendorId == options.vendorId) as unknown as USBDevice;
 
     if(!this.selectedDevice) {
       return Promise.reject(`Device with product id ${options.productId} is not found.`);

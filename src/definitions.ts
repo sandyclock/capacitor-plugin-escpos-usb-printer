@@ -17,7 +17,7 @@ export interface EpsonUSBPrinterPlugin {
 
   hasPermission(options: { deviceId: number}): Promise<{ permission: boolean; }>;
 
-  connectToPrinter(options: { deviceId: number}): Promise<{ connected: boolean; }>;
+  connectToPrinter(options: { deviceId: number, vendorId: number, productId: number}): Promise<{ connected: boolean; }>;
 
   print(options: { printObject: string }): Promise<void>;
 

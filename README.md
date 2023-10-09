@@ -39,12 +39,12 @@ getPrinterList() => Promise<{ printerList: EpsonUSBPrinterInfo[]; }>
 ### hasPermission(...)
 
 ```typescript
-hasPermission(options: { vendorId: number; productId: number; }) => Promise<{ permission: boolean; }>
+hasPermission(options: { deviceId: number; }) => Promise<{ permission: boolean; }>
 ```
 
-| Param         | Type                                                  |
-| ------------- | ----------------------------------------------------- |
-| **`options`** | <code>{ vendorId: number; productId: number; }</code> |
+| Param         | Type                               |
+| ------------- | ---------------------------------- |
+| **`options`** | <code>{ deviceId: number; }</code> |
 
 **Returns:** <code>Promise&lt;{ permission: boolean; }&gt;</code>
 
@@ -54,12 +54,12 @@ hasPermission(options: { vendorId: number; productId: number; }) => Promise<{ pe
 ### connectToPrinter(...)
 
 ```typescript
-connectToPrinter(options: { vendorId: number; productId: number; }) => Promise<{ connected: boolean; }>
+connectToPrinter(options: { deviceId: number; vendorId: number; productId: number; }) => Promise<{ connected: boolean; }>
 ```
 
-| Param         | Type                                                  |
-| ------------- | ----------------------------------------------------- |
-| **`options`** | <code>{ vendorId: number; productId: number; }</code> |
+| Param         | Type                                                                    |
+| ------------- | ----------------------------------------------------------------------- |
+| **`options`** | <code>{ deviceId: number; vendorId: number; productId: number; }</code> |
 
 **Returns:** <code>Promise&lt;{ connected: boolean; }&gt;</code>
 
@@ -103,5 +103,6 @@ printHexArray(options: { content: string; }) => Promise<void>
 | **`vendorId`**    | <code>number</code>  |
 | **`productName`** | <code>string</code>  |
 | **`connected`**   | <code>boolean</code> |
+| **`deviceId`**    | <code>number</code>  |
 
 </docgen-api>
