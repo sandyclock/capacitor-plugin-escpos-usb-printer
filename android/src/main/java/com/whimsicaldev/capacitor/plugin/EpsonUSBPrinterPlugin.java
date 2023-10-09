@@ -53,50 +53,51 @@ public class EpsonUSBPrinterPlugin extends Plugin {
 
     @PluginMethod
   public void hasPermission(PluginCall call) {
-    if (!call.hasOption(EpsonUSBPrinterConstant.Info.productId)) {
+    if (!call.hasOption(EpsonUSBPrinterConstant.Info.deviceId)) {
 //      if (!call.hasOption("productId")) {
-      call.reject("Product id is not provided.");
+      call.reject("Device id is not provided.");
       return;
-    } else if (call.hasOption(EpsonUSBPrinterConstant.Info.productId) && call.getInt(EpsonUSBPrinterConstant.Info.productId) == null) {
+    }
+    else if (call.hasOption(EpsonUSBPrinterConstant.Info.deviceId) && call.getInt(EpsonUSBPrinterConstant.Info.deviceId) == null) {
 //    } else if (call.hasOption("productId") && call.getInt("productId") == null) {
 
       call.reject("Product id is of incorrect type, please provide an integer.");
       return;
     }
 
-      if (!call.hasOption(EpsonUSBPrinterConstant.Info.vendorId)) {
-        call.reject("Vendor id is not provided.");
-        return;
-      } else if (call.hasOption(EpsonUSBPrinterConstant.Info.vendorId) && call.getInt(EpsonUSBPrinterConstant.Info.vendorId) == null) {
-        call.reject("Vendor id is of incorrect type, please provide an integer.");
-        return;
-      }
+//      if (!call.hasOption(EpsonUSBPrinterConstant.Info.vendorId)) {
+//        call.reject("Vendor id is not provided.");
+//        return;
+//      } else if (call.hasOption(EpsonUSBPrinterConstant.Info.vendorId) && call.getInt(EpsonUSBPrinterConstant.Info.vendorId) == null) {
+//        call.reject("Vendor id is of incorrect type, please provide an integer.");
+//        return;
+//      }
 
-      Integer productId = call.getInt(EpsonUSBPrinterConstant.Info.productId);
+      Integer deviceId = call.getInt(EpsonUSBPrinterConstant.Info.deviceId);
 
-    Integer vendorId = call.getInt(EpsonUSBPrinterConstant.Info.vendorId);
+//    Integer vendorId = call.getInt(EpsonUSBPrinterConstant.Info.vendorId);
 
-      this.implementation.hasPermission(vendorId, call, productId);
+      this.implementation.hasPermission(call, deviceId);
 
   }
 
   @PluginMethod
     public void connectToPrinter(PluginCall call) {
-    if (!call.hasOption(EpsonUSBPrinterConstant.Info.productId)) {
+    if (!call.hasOption(EpsonUSBPrinterConstant.Info.deviceId)) {
             call.reject("Product id is not provided.");
       return;
-    } else if (call.hasOption(EpsonUSBPrinterConstant.Info.productId) && call.getInt(EpsonUSBPrinterConstant.Info.productId) == null) {
+    } else if (call.hasOption(EpsonUSBPrinterConstant.Info.deviceId) && call.getInt(EpsonUSBPrinterConstant.Info.deviceId) == null) {
             call.reject("Product id is of incorrect type, please provide an integer.");
       return;
         }
 
-    if (!call.hasOption(EpsonUSBPrinterConstant.Info.vendorId)) {
-      call.reject("Vendor id is not provided.");
-      return;
-    } else if (call.hasOption(EpsonUSBPrinterConstant.Info.vendorId) && call.getInt(EpsonUSBPrinterConstant.Info.vendorId) == null) {
-      call.reject("Vendor id is of incorrect type, please provide an integer.");
-      return;
-    }
+//    if (!call.hasOption(EpsonUSBPrinterConstant.Info.vendorId)) {
+//      call.reject("Vendor id is not provided.");
+//      return;
+//    } else if (call.hasOption(EpsonUSBPrinterConstant.Info.vendorId) && call.getInt(EpsonUSBPrinterConstant.Info.vendorId) == null) {
+//      call.reject("Vendor id is of incorrect type, please provide an integer.");
+//      return;
+//    }
 
 //    if (!call.hasOption("productId")) {
 //      call.reject("Product id is not provided.");
@@ -106,11 +107,11 @@ public class EpsonUSBPrinterPlugin extends Plugin {
 //      return;
 //    }
 
-    Integer productId = call.getInt(EpsonUSBPrinterConstant.Info.productId);
+    Integer deviceId = call.getInt(EpsonUSBPrinterConstant.Info.deviceId);
 
-    Integer vendorId = call.getInt(EpsonUSBPrinterConstant.Info.vendorId);
+//    Integer vendorId = call.getInt(EpsonUSBPrinterConstant.Info.vendorId);
 
-    this.implementation._connectToPrinter(vendorId, call, productId);
+    this.implementation._connectToPrinter(call, deviceId);
 
     }
 

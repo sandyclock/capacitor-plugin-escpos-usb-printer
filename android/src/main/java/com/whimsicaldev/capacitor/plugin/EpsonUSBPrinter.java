@@ -120,11 +120,11 @@ public class EpsonUSBPrinter {
         return false;
     }
 
-  public void hasPermission(Integer vendorId, PluginCall call, Integer productId) {
+  public void hasPermission(PluginCall call, Integer deviceId) {
         UsbDevice selectedDevice = null;
     HashMap<String, UsbDevice> deviceList = this.manager.getDeviceList();
     for (UsbDevice device : deviceList.values()) {
-      if (Objects.equals(productId, device.getProductId()) && Objects.equals(vendorId, device.getVendorId())) {
+      if (Objects.equals(deviceId, device.getDeviceId())){// && Objects.equals(vendorId, device.getVendorId())) {
                 selectedDevice = device;
                 setUsbInterfaceAndEndpoint(selectedDevice);
                 break;
@@ -132,7 +132,7 @@ public class EpsonUSBPrinter {
         }
 
     if (selectedDevice == null) {
-      call.reject("Device with product id " + productId + " is not found.");
+      call.reject("Device with device id " + deviceId + " cannot be found.");
       return;
     }
     boolean result = this.manager.hasPermission(selectedDevice);
@@ -141,11 +141,11 @@ public class EpsonUSBPrinter {
     call.resolve(retVal);
   }
 
-  public void _connectToPrinter(Integer vendorId, PluginCall call, Integer productId) {
+  public void _connectToPrinter(PluginCall call, Integer deviceId) {
     UsbDevice selectedDevice = null;
     HashMap<String, UsbDevice> deviceList = this.manager.getDeviceList();
     for (UsbDevice device : deviceList.values()) {
-      if (Objects.equals(productId, device.getProductId()) && Objects.equals(vendorId, device.getVendorId())) {
+      if (Objects.equals(deviceId, device.getDeviceId())){// && Objects.equals(vendorId, device.getVendorId())) {
         selectedDevice = device;
         setUsbInterfaceAndEndpoint(selectedDevice);
         break;
@@ -153,7 +153,7 @@ public class EpsonUSBPrinter {
     }
 
     if (selectedDevice == null) {
-      call.reject("Device with product id " + productId + " is not found.");
+      call.reject("Device with device id " + deviceId + " is not found.");
       return;
         }
 
@@ -170,10 +170,11 @@ public class EpsonUSBPrinter {
                 EpsonUSBPrinter.this.connection = manager.openDevice(_device);
                 JSObject jsObject = new JSObject();
                 jsObject.put("connected", true);
+
                 call.resolve(jsObject);
               } catch (Exception e) {
                 EpsonUSBPrinter.this.connection = null;
-                call.reject("Failed to establish connection to device " + productId + " due to " + e.getMessage());
+                call.reject("Failed to establish connection to device (device id: " + deviceId + ") due to " + e.getMessage());
               }
             }
           }
@@ -246,6 +247,8 @@ public class EpsonUSBPrinter {
         }
 
     this.connection.releaseInterface(this.usbInterfaceConnected);
+    this.connection.close();
+    this.connection = null;
     }
 
   public void printRaw(byte[] bytes) throws Exception {
@@ -295,5 +298,7 @@ public class EpsonUSBPrinter {
 
 
     this.connection.releaseInterface(this.usbInterfaceConnected);
+    this.connection.close();
+    this.connection = null;
   }
 }
