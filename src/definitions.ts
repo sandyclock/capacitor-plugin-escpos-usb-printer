@@ -3,6 +3,7 @@ export interface EpsonUSBPrinterInfo {
   vendorId: number;
   productName: string;
   connected: boolean;
+  deviceId: number;
 }
 
 export interface EpsonUSBPrinterLineEntry {
@@ -14,9 +15,9 @@ export interface EpsonUSBPrinterLineEntry {
 export interface EpsonUSBPrinterPlugin {
   getPrinterList(): Promise<{ printerList: EpsonUSBPrinterInfo[]; }>;
 
-  hasPermission(options: { vendorId: number, productId: number }): Promise<{ permission: boolean; }>;
+  hasPermission(options: { deviceId: number}): Promise<{ permission: boolean; }>;
 
-  connectToPrinter(options: { vendorId: number, productId: number }): Promise<{ connected: boolean; }>;
+  connectToPrinter(options: { deviceId: number}): Promise<{ connected: boolean; }>;
 
   print(options: { printObject: string }): Promise<void>;
 
