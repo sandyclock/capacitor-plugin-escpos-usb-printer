@@ -15,6 +15,7 @@ npx cap sync
 
 * [`getPrinterList()`](#getprinterlist)
 * [`hasPermission(...)`](#haspermission)
+* [`retrieveSerial(...)`](#retrieveserial)
 * [`connectToPrinter(...)`](#connecttoprinter)
 * [`print(...)`](#print)
 * [`printHexArray(...)`](#printhexarray)
@@ -47,6 +48,21 @@ hasPermission(options: { deviceId: number; }) => Promise<{ permission: boolean; 
 | **`options`** | <code>{ deviceId: number; }</code> |
 
 **Returns:** <code>Promise&lt;{ permission: boolean; }&gt;</code>
+
+--------------------
+
+
+### retrieveSerial(...)
+
+```typescript
+retrieveSerial(options: { deviceId: number; }) => Promise<{ serial: string; }>
+```
+
+| Param         | Type                               |
+| ------------- | ---------------------------------- |
+| **`options`** | <code>{ deviceId: number; }</code> |
+
+**Returns:** <code>Promise&lt;{ serial: string; }&gt;</code>
 
 --------------------
 
@@ -104,6 +120,5 @@ printHexArray(options: { content: string; }) => Promise<void>
 | **`productName`** | <code>string</code>  |
 | **`connected`**   | <code>boolean</code> |
 | **`deviceId`**    | <code>number</code>  |
-| **`serial`**      | <code>string</code>  |
 
 </docgen-api>

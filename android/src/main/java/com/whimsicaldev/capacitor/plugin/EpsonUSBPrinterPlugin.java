@@ -82,7 +82,7 @@ public class EpsonUSBPrinterPlugin extends Plugin {
   }
 
   @PluginMethod
-  public void requestSerial(PluginCall call) {
+  public void retrieveSerial(PluginCall call) {
     if (!call.hasOption(EpsonUSBPrinterConstant.Info.deviceId)) {
 //      if (!call.hasOption("productId")) {
       call.reject("Device id is not provided.");
