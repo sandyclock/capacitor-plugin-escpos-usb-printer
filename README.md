@@ -104,5 +104,6 @@ printHexArray(options: { content: string; }) => Promise<void>
 | **`productName`** | <code>string</code>  |
 | **`connected`**   | <code>boolean</code> |
 | **`deviceId`**    | <code>number</code>  |
+| **`serial`**      | <code>string</code>  |
 
 </docgen-api>

@@ -30,6 +30,11 @@ export class EpsonUSBPrinterWeb extends WebPlugin implements EpsonUSBPrinterPlug
     throw new Error('Method not implemented.');
   }
 
+  async retrieveSerial(options: { deviceId: number }): Promise<{serial: string; }> {
+    console.log(options);
+    throw new Error('Method not implemented.');
+  }
+
   async connectToPrinter(options: { deviceId: number, vendorId: number, productId: number }): Promise<{ connected: boolean; }> {
     if(!navigator.usb) {
       return Promise.reject('USB is not supported in this browser.');

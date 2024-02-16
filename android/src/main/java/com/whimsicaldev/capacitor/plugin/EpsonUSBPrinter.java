@@ -85,6 +85,8 @@ public class EpsonUSBPrinter {
         printerInfo.put(EpsonUSBPrinterConstant.Info.manufacturer, usbDevice.getManufacturerName());
         printerInfo.put(EpsonUSBPrinterConstant.Info.deviceId, usbDevice.getDeviceId());
         printerInfo.put(EpsonUSBPrinterConstant.Info.vendorId, usbDevice.getVendorId());
+//        printerInfo.put(EpsonUSBPrinterConstant.Info.serial, usbDevice.getSerialNumber());
+
 
 //        printerInfo.put("productId", usbDevice.getProductId());
 //                printerInfo.put("productName", usbDevice.getProductName());
@@ -139,6 +141,59 @@ public class EpsonUSBPrinter {
     JSObject retVal = new JSObject();
     retVal.put("permission", result);
     call.resolve(retVal);
+  }
+
+  public void retrieveSerial(PluginCall call, Integer deviceId) {
+    UsbDevice selectedDevice = null;
+    HashMap<String, UsbDevice> deviceList = this.manager.getDeviceList();
+    for (UsbDevice device : deviceList.values()) {
+      if (Objects.equals(deviceId, device.getDeviceId())){// && Objects.equals(vendorId, device.getVendorId())) {
+        selectedDevice = device;
+        setUsbInterfaceAndEndpoint(selectedDevice);
+        break;
+      }
+    }
+
+    if (selectedDevice == null) {
+      call.reject("Device with device id " + deviceId + " is not found.");
+      return;
+    }
+
+    String actionString = this.actionString;
+    UsbDevice _device = selectedDevice;
+    BroadcastReceiver usbReceiver = new BroadcastReceiver() {
+      public void onReceive(Context context, Intent intent) {
+        String action = intent.getAction();
+        if (actionString.equals(action)) {
+          synchronized (this) {
+            UsbDevice usbDevice = (UsbDevice) intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+            if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
+              try {
+                  String _serial = usbDevice.getSerialNumber();
+                  JSObject jsObject = new JSObject();
+                  jsObject.put("serial", _serial);
+                call.resolve(jsObject);
+//                EpsonUSBPrinter.this.connection = manager.openDevice(_device);
+//                JSObject jsObject = new JSObject();
+//                jsObject.put("connected", true);
+//
+//                call.resolve(jsObject);
+              } catch (Exception e) {
+                EpsonUSBPrinter.this.connection = null;
+                call.reject("Failed to retrieve USB device information (device id: " + deviceId + ") due to " + e.getMessage());
+              }
+              return;
+            }
+            call.reject("Fail to retrieve device information because the access permission is not granted.");
+
+          }
+        }
+      }
+
+      ;
+
+    };
+    this.requestPermission(_device, usbReceiver);
   }
 
   public void _connectToPrinter(PluginCall call, Integer deviceId) {

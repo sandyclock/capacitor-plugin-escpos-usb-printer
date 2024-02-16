@@ -16,6 +16,8 @@ public class EpsonUSBPrinterConstant {
      final public static String deviceName = "deviceName";
      final public static String manufacturer ="manufacturer";
      final public static String deviceId = "deviceId";
+     final public static String serial = "serial";
+
    }
 
     public static Map<String, byte[]> EPSON_STYLE_LIST;

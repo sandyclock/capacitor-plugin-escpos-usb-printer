@@ -82,6 +82,36 @@ public class EpsonUSBPrinterPlugin extends Plugin {
   }
 
   @PluginMethod
+  public void requestSerial(PluginCall call) {
+    if (!call.hasOption(EpsonUSBPrinterConstant.Info.deviceId)) {
+//      if (!call.hasOption("productId")) {
+      call.reject("Device id is not provided.");
+      return;
+    }
+    else if (call.hasOption(EpsonUSBPrinterConstant.Info.deviceId) && call.getInt(EpsonUSBPrinterConstant.Info.deviceId) == null) {
+//    } else if (call.hasOption("productId") && call.getInt("productId") == null) {
+
+      call.reject("Device id is of incorrect type, please provide an integer.");
+      return;
+    }
+
+//      if (!call.hasOption(EpsonUSBPrinterConstant.Info.vendorId)) {
+//        call.reject("Vendor id is not provided.");
+//        return;
+//      } else if (call.hasOption(EpsonUSBPrinterConstant.Info.vendorId) && call.getInt(EpsonUSBPrinterConstant.Info.vendorId) == null) {
+//        call.reject("Vendor id is of incorrect type, please provide an integer.");
+//        return;
+//      }
+
+    Integer deviceId = call.getInt(EpsonUSBPrinterConstant.Info.deviceId);
+
+//    Integer vendorId = call.getInt(EpsonUSBPrinterConstant.Info.vendorId);
+
+    this.implementation.retrieveSerial(call, deviceId);
+
+  }
+
+  @PluginMethod
     public void connectToPrinter(PluginCall call) {
     if (!call.hasOption(EpsonUSBPrinterConstant.Info.deviceId)) {
             call.reject("Product id is not provided.");
