@@ -18,6 +18,7 @@ import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbEndpoint;
 import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbManager;
+import android.os.Build;
 import android.util.Log;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -50,19 +51,36 @@ public class EpsonUSBPrinter {
     }
 
   private void requestPermission(UsbDevice _usbDevice, BroadcastReceiver _receiver) {
-    PendingIntent permissionIntent = PendingIntent.getBroadcast(
+    PendingIntent permissionIntent;
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE){
+      permissionIntent = PendingIntent.getBroadcast(
       this.context,
       0,
       new Intent(actionString),
-      android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S ? PendingIntent.FLAG_MUTABLE : 0
+        PendingIntent.FLAG_MUTABLE|PendingIntent.FLAG_ALLOW_UNSAFE_IMPLICIT_INTENT
     );
+    }
+    else {
+        permissionIntent = PendingIntent.getBroadcast(
+          this.context,
+          0,
+          new Intent(actionString),
+          Build.VERSION.SDK_INT >= Build.VERSION_CODES.S ? PendingIntent.FLAG_MUTABLE : 0
+        );
+    }
+
     IntentFilter filter = new IntentFilter(actionString);
 //    Logger.info("************** receiver is *************");
 //    Logger.info(String.valueOf(_receiver));
 //    Logger.info(this.actionString);
 //    Logger.info(String.valueOf(_usbDevice));
 //    Logger.info(String.valueOf(permissionIntent));
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+      this.context.registerReceiver(_receiver, filter, Context.RECEIVER_EXPORTED);
+    }
+    else {
     this.context.registerReceiver(_receiver, filter);
+    }
 //    Logger.info("*************** request permission check 2 ************");
     this.manager.requestPermission(_usbDevice, permissionIntent);
   }
