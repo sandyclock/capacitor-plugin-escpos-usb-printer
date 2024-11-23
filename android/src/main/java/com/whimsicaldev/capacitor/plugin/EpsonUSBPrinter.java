@@ -256,8 +256,8 @@ public class EpsonUSBPrinter {
         }
     }
 
-    public void print(String printObject) throws Exception {
-    if (this.connection == null) {
+    public void print(String printObject, int lineFeed) throws Exception {
+        if(this.connection == null) {
             throw new Exception("Currently not connected to a device.");
     } else if (this.usbInterfaceConnected == null) {
             throw new Exception("Usb interface is not properly set.");
@@ -282,8 +282,12 @@ public class EpsonUSBPrinter {
 
       if (lineEntry.getLineText() != null) {
                 String printData = lineEntry.getLineText();
-        this.connection.bulkTransfer(this.usbEndpointConnected, printData.getBytes(), printData.getBytes().length, 10000);
-        this.connection.bulkTransfer(this.usbEndpointConnected, LN, LN.length, 10000);
+                String[] splitData = printData.split("\\n");
+
+                for (String print: splitData) {
+                    this.connection.bulkTransfer(this.usbEndpointConnected, print.getBytes(), print.getBytes().length, 10000);
+                    this.connection.bulkTransfer(this.usbEndpointConnected, LN, LN.length, 10000);
+                }
             }
 
       if (lineEntry.getLineCommandList() != null) {
@@ -297,8 +301,8 @@ public class EpsonUSBPrinter {
         }
 
         // line feed to push the prints beyond the printer cover
-    for (int i = 0; i < 6; i += 1) {
-      this.connection.bulkTransfer(this.usbEndpointConnected, LN, LN.length, 10000);
+        for(int i = 0; i < lineFeed; i+=1) {
+            this.connection.bulkTransfer(this.usbEndpointConnected, LN, LN.length, 10000);
         }
 
     this.connection.releaseInterface(this.usbInterfaceConnected);

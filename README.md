@@ -17,8 +17,8 @@ npx cap sync
 * [`hasPermission(...)`](#haspermission)
 * [`retrieveSerial(...)`](#retrieveserial)
 * [`connectToPrinter(...)`](#connecttoprinter)
-* [`print(...)`](#print)
 * [`printHexArray(...)`](#printhexarray)
+* [`print(...)`](#print)
 * [Interfaces](#interfaces)
 
 </docgen-index>
@@ -82,19 +82,6 @@ connectToPrinter(options: { deviceId: number; vendorId: number; productId: numbe
 --------------------
 
 
-### print(...)
-
-```typescript
-print(options: { printObject: string; }) => Promise<void>
-```
-
-| Param         | Type                                  |
-| ------------- | ------------------------------------- |
-| **`options`** | <code>{ printObject: string; }</code> |
-
---------------------
-
-
 ### printHexArray(...)
 
 ```typescript
@@ -104,6 +91,19 @@ printHexArray(options: { content: string; }) => Promise<void>
 | Param         | Type                              |
 | ------------- | --------------------------------- |
 | **`options`** | <code>{ content: string; }</code> |
+
+--------------------
+
+
+### print(...)
+
+```typescript
+print(options: { printObject: string; lineFeed?: number; }) => Promise<void>
+```
+
+| Param         | Type                                                     |
+| ------------- | -------------------------------------------------------- |
+| **`options`** | <code>{ printObject: string; lineFeed?: number; }</code> |
 
 --------------------
 
