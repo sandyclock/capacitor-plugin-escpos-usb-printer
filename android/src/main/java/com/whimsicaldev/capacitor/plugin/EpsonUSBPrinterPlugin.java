@@ -20,9 +20,10 @@ import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
-import org.apache.commons.codec.binary.Hex;
 
 import org.json.JSONArray;
+
+import android.util.Base64;
 
 @CapacitorPlugin(name = "EpsonUSBPrinter")
 public class EpsonUSBPrinterPlugin extends Plugin {
@@ -174,7 +175,7 @@ public class EpsonUSBPrinterPlugin extends Plugin {
     String hexArray = call.getString("content");
 
     try {
-      byte[] bytes = org.apache.commons.codec.binary.Base64.decodeBase64(hexArray);
+      byte[] bytes = Base64.decode(hexArray, Base64.DEFAULT);
       implementation.printRaw(bytes);
       call.resolve();
     } catch (Exception e) {
