@@ -1,5 +1,6 @@
 package com.whimsicaldev.capacitor.plugin;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -7,9 +8,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+//import javax.naming.Context;
+import android.content.Context;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.getcapacitor.Logger;
+import com.getcapacitor.PluginCall;
+
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.hardware.usb.UsbConstants;
@@ -20,13 +28,8 @@ import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbManager;
 import android.os.Build;
 import android.util.Log;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+//import netscape.javascript.JSObject;
 import com.getcapacitor.JSObject;
-import com.getcapacitor.JSValue;
-import com.getcapacitor.Logger;
-import com.getcapacitor.PluginCall;
 
 public class EpsonUSBPrinter {
     private final Context context;
@@ -85,7 +88,7 @@ public class EpsonUSBPrinter {
     this.manager.requestPermission(_usbDevice, permissionIntent);
   }
 
-    public List<Map> getPrinterList() {
+    public List<Map> getPrinterList() throws Exception {
         List<Map> printerList = new ArrayList<>();
 
         HashMap<String, UsbDevice> deviceList = this.manager.getDeviceList();
@@ -303,7 +306,7 @@ public class EpsonUSBPrinter {
                 String[] splitData = printData.split("\\n");
 
                 for (String print: splitData) {
-                    this.connection.bulkTransfer(this.usbEndpointConnected, print.getBytes(), print.getBytes().length, 10000);
+                    this.connection.bulkTransfer(this.usbEndpointConnected, print.getBytes(StandardCharsets.UTF_8), print.getBytes(StandardCharsets.UTF_8).length, 10000);
                     this.connection.bulkTransfer(this.usbEndpointConnected, LN, LN.length, 10000);
                 }
             }
